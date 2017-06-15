@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+  <meta charset="utf-8">
+  <head>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="{{url_for('static', filename='js/date_slider.js') }}"></script>
+    <title>newFin</title>
+  </head>
+  <body>
+    <img src="{{url_for('static', filename='images/logo.png') }}" style="width:200px;height:100px"/>
+    </br>
+    <h2>Al-Zoomba - Intentionally Fake Name</h2>
+
+    <div id="chart" style="height:300px">
+    </div>
+    <!--<select name="files" >
+      {% for post in posts %}
+        <option value="{{ post.mongo_collection }}">{{ post.file_title }}</option>
+      {% endfor %}
+    </select>-->
+  </body>

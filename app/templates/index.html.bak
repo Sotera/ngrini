@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>newFin</title>
+  </head>
+  <body>
+    <img src="{{url_for('static', filename='logo.png') }}" style="width:300px;height:200px"/>
+    <h1>Hi, {{ user.nickname }}!</h1>
+    {% for post in posts %}
+    <div><p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
+  </body>
+</html>

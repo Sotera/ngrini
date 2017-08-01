@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request
 from app import app
 from app import data_handlers
 
@@ -25,4 +25,11 @@ def index():
 
 @app.route("/api/load_data/<collection>")
 def load_data(collection):
-    df = data_handlers.data_from_mongo(collection)
+    return data_handlers.date_chart_from_mongo(collection)
+
+@app.route("/api/stats_data")
+def load_stats():
+    pars = request.args.to_dict()
+    if "min_dt" in pars and "max_dt" in pars:
+        return data_handlers.stats_table_from_mongo(pars['col'], start=pars['min_dt'], stop=pars['max_dt'])
+    return data_handlers.stats_table_from_mongo(pars['col'])

@@ -1,20 +1,42 @@
 <!DOCTYPE html>
+<html lang="en">
   <meta charset="utf-8">
   <head>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="{{url_for('static', filename='js/date_slider.js') }}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/newfin.css') }}">
+    <script src="{{url_for('static', filename='js/d3.min.js') }}"></script>
+    <script src="{{url_for('static', filename='js/jQuery-3.2.1.min.js') }}"></script>
+    <script src="{{url_for('static', filename='js/d3.tip.v0.6.3.js') }}"></script>
+    <script src="{{url_for('static', filename='js/dimple.js') }}"></script>
+    <script src="{{url_for('static', filename='js/index.js') }}"></script>
     <title>newFin</title>
   </head>
-  <body>
+  <body onload="load_all('placid_express_custdata_originate_alzarooni')">
     <img src="{{url_for('static', filename='images/logo.png') }}" style="width:200px;height:100px"/>
     </br>
-    <h2>Al-Zoomba - Intentionally Fake Name</h2>
-
-    <div id="chart" style="height:300px">
+    <h2>Placid Express</h2>
+    <h3>Date Ranges and Basic Stats</h3>
+    <div class="chart_stat_bar">
+      <div class="nav-chart-container"></div>
+      <div class="stat-box">
+        <table class="stat-table" style="width:100%">
+        </table>
+      </div>
     </div>
-    <!--<select name="files" >
-      {% for post in posts %}
-        <option value="{{ post.mongo_collection }}">{{ post.file_title }}</option>
-      {% endfor %}
-    </select>-->
+    <h3>Transaction Amounts</h3>
+    <div class="chart_stat_bar">
+      <svg class="low_hist"></svg>
+      <svg class="high_hist"></svg>
+    </div>
+    <h3>Benford's Law - Leading Digit</h3>
+    <div class="chart_stat_bar">
+      <div class="BL1-chart-container"></div>
+      <div class="stat-box">
+        <table class="stat-table-BL1" style="width:100%">
+        </table>
+      </div>
+    </div>
   </body>
+  <script src="{{url_for('static', filename='js/stats_table.js') }}"></script>
+  <script src="{{url_for('static', filename='js/date_slider.js') }}"></script>
+  <script src="{{url_for('static', filename='js/wrap_loaders.js') }}"></script>
+</html>

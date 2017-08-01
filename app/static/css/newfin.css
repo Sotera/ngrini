@@ -1,15 +1,199 @@
+.navbar-brand {
+    background-image: url('/images/rancor.png');
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: left center;
+    padding-left: 45px;
+    margin-top: -1px;
+    margin-left: 0px !important;
+    font-size: 22px;
+    color: #07582B !important;
+}
+
+h2, h3 {
+    color: #07582B;
+}
+
+.chart_stat_bar {
+    width:100%;
+    height:500px;
+    overflow:hidden;
+}
+
+.nav-chart-container {
+    height:90%;
+    width:45%;
+    float:left;
+}
+
+.stat-box {
+    height:95%;
+    width: 45%;
+    margin-left:50%;
+    padding:5px;
+}
+
+.bar{
+    fill: green;
+}
+
+.bar:hover {
+    fill:brown;
+}
+
+.axis--x path {
+    display: none;
+}
+
+.low_hist {
+    height:90%;
+    width:45%;
+    float:left;
+}
+
+.high_hist {
+    height:90%;
+    width:45%;
+    float:left;
+}
+
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axisSteelBlue text{
+  fill: steelblue;
+}
+
+.axisRed text{
+  fill: red;
+}
+
+td.highlight {
+    border: 3px solid #07582B !important;
+}
+
+
+
+img.highlight {
+    border: 3px solid #07582B !important;
+}
+
+table caption {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+span.underline {
+    border-bottom: 1px dotted #ccc;
+    text-decoration: none;
+}
+
+.navigator .circle {
+    fill: white;
+    stroke: cornflowerblue;
+    stroke-width: 1.5px;
+}
+
 .navigator .data {
-    fill: lightgrey;
+    fill: cornflowerblue;
     stroke-width: 0px;
 }
 
 .navigator .line {
     fill: none;
-    stroke: darkgrey;
+    stroke: black;
     stroke-width: 1px;
 }
 
-.chart .overlay {
-    stroke-width: 0px;
-    fill-opacity: 0;
+.navigator .viewport {
+    fill: white;
+    fill-opacity: 0.2;
+}
+
+.links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+}
+
+.nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+
+img.grid-image {
+    height: 50px;
+    width: 50px;
+}
+
+img.grid-image-hover {
+    height: 360px;
+    width: 360px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 31px;
+    height: 16px;
+}
+
+.switch input {
+    display:none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    bottom: 1px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #4b90f3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #4b90f3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(16px);
+    -ms-transform: translateX(16px);
+    transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.cell {
+    padding-left: 10px;
+    display: table-cell;
+    vertical-align: middle;
+    height: 24px;
 }

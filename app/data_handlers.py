@@ -37,7 +37,7 @@ def stats_table_from_mongo(collection, start=None, stop=None):
     df = pd.DataFrame(list(db[collection].find()))
     df = df.dropna(axis=0, how='any')
     df['TRN_DATE'] = df.TRN_DATE.apply(str_dt_pddt)
-    locale.setlocale(locale.LC_ALL, 'en_US')
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
     df['TRN_AMT'] = df['TRN_AMT'].apply(locale.atof)
     abs_max = df[df["TRN_AMT"]>2000]["TRN_AMT"].max()
     axis_max = int(abs_max-abs_max%5000+5000)

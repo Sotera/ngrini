@@ -7,6 +7,9 @@ import json, locale
 def str_dt_pddt(pddt):
     return str(pddt.date())
 
+def z_score(ap, ep, n):
+    return (np.abs(ap-ep)-(1./(2.*n)))/np.sqrt((ep*(1-ep))/n)
+
 def date_chart_from_mongo(collection):
     client = MongoClient("mongodb://10.1.70.150:27017")
     db = client["fby-ny"]
@@ -29,7 +32,6 @@ def hist_to_d3(occ, bc):
     return [{"occ":x[0], "bins":x[1]} for x in zip(occ.tolist(), bc)]
 
 def stats_table_from_mongo(collection, start=None, stop=None):
-    print("stats_table")
     client = MongoClient("mongodb://10.1.70.150:27017")
     db = client["fby-ny"]
     if collection not in db.collection_names():
@@ -71,5 +73,32 @@ def stats_table_from_mongo(collection, start=None, stop=None):
     hh_occ, hh_bins = np.histogram(df[df["TRN_AMT"]>2000]["TRN_AMT"], bins=list(range(2000,axis_max,1000)))
     hh_bc = [int((hh_bins[x]-hh_bins[x-1])/2 +hh_bins[x-1]) for x in range(1,len(hh_bins))]
     r_dict["high_hist"] = hist_to_d3(hh_occ, hh_bc)
+    dump = json.dumps(r_dict)
+    return dump
+
+def benfords_law(collection, start=None, stop=None):
+    client = MongoClient("mongodb://10.1.70.150:27017")
+    db = client["fby-ny"]
+    df = pd.DataFrame(list(db[collection].find()))
+    df = df.dropna(axis=0, how='any')
+    df['TRN_DATE'] = df.TRN_DATE.apply(str_dt_pddt)
+    if (start is not None) and (stop is not None):
+        if start > stop:
+            start, stop = (stop, start)
+        df = df[(df['TRN_DATE'] >= start) & (df['TRN_DATE'] <= stop)]
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+    df['TRN_AMT'] = df['TRN_AMT'].apply(locale.atof)
+    s_amt = df[df['TRN_AMT']>10]['TRN_AMT'].dropna().apply(lambda x: str(x))
+    total = len(s_amt)
+    #leading digit
+    ob_lead = s_amt.apply(lambda x: x[0]).value_counts(normalize=True).to_dict()
+    ex_lead = {str(x): np.log10(1.+1./x) for x in range(1,10)}
+    z_lead = {str(i):z_score(ob_lead[str(i)], ex_lead[str(i)], total) for i in range(1,10)}
+    #leading digit pairs
+    ob_pair = s_amt.apply(lambda x: x[:2]).value_counts(normalize=True).to_dict()
+    ex_pair = {str(x): np.log10(1.+1./x) for x in range(10,100)}
+    z_pair = {str(i):z_score(ob_pair[str(i)], ex_pair[str(i)], total) for i in range(10,100)}
+    #build return dict
+    r_dict = {"ob_lead":ob_lead, "ex_lead":ex_lead, "z_lead":z_lead, "ob_pair": ob_pair, "ex_pair": ex_pair, "z_pair":z_pair}
     dump = json.dumps(r_dict)
     return dump

@@ -54,10 +54,12 @@ function renderExObChart(data, class_n){
                 function(d) {
                     return height - y(d.obs);
                 } );
+
     g.append('path')
         .attr('class', 'line')
         .style("stroke", "#ffae3b")
-        .attr('d', navExLine(data));
+        .attr('d', navExLine(data))
+        .attr("transform", "translate(" + x.bandwidth()/2 + ",0)");
 
 }
 
@@ -87,6 +89,7 @@ function renderMiniChart(data, class_n){
     g.append('path')
         .attr('class', 'line')
         .style("stroke", "#7fc14b")
-        .attr('d', navExLine(data));
+        .attr('d', navExLine(data))
+        .attr("transform", "translate(" + x.bandwidth()/2 + ",0)");
 }
 

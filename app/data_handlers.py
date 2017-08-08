@@ -54,13 +54,13 @@ def stats_table_from_mongo(collection, start=None, stop=None):
     r_dict["stats"].append({"Number of Senders":len(df.groupby("ORIG_NAME").agg({"TRN_AMT":{"count":"count"}}))})
     grouped = df.groupby("ORIG_NAME").agg({"TRN_AMT":{"count":"count", "sum":"sum"}})
     grouped.columns = grouped.columns.droplevel(0)
-    r_dict["stats"].append({"Highest Volume Sender":grouped['count'].idxmax()})
-    r_dict["stats"].append({"Highest Net Value Sender":grouped['sum'].idxmax()})
+    #r_dict["stats"].append({"Highest Volume Sender":grouped['count'].idxmax()})
+    #r_dict["stats"].append({"Highest Net Value Sender":grouped['sum'].idxmax()})
     r_dict["stats"].append({"Number of Recievers":len(df.groupby("BENE_NAME").agg({"TRN_AMT":{"count":"count"}}))})
     grouped = df.groupby("BENE_NAME").agg({"TRN_AMT":{"count":"count", "sum":"sum"}})
     grouped.columns = grouped.columns.droplevel(0)
-    r_dict["stats"].append({"Highest Volume Reciever":grouped['count'].idxmax()})
-    r_dict["stats"].append({"Highest Net Value Rec":grouped['sum'].idxmax()})
+    #r_dict["stats"].append({"Highest Volume Reciever":grouped['count'].idxmax()})
+    #r_dict["stats"].append({"Highest Net Value Rec":grouped['sum'].idxmax()})
     r_dict["stats"].append({"Max Transfer":df["TRN_AMT"].max()})
     r_dict["stats"].append({"Min Transfer":df["TRN_AMT"].min()})
     r_dict["stats"].append({"Mean":df["TRN_AMT"].mean()})
@@ -73,6 +73,9 @@ def stats_table_from_mongo(collection, start=None, stop=None):
     hh_occ, hh_bins = np.histogram(df[df["TRN_AMT"]>2000]["TRN_AMT"], bins=list(range(2000,axis_max,1000)))
     hh_bc = [int((hh_bins[x]-hh_bins[x-1])/2 +hh_bins[x-1]) for x in range(1,len(hh_bins))]
     r_dict["high_hist"] = hist_to_d3(hh_occ, hh_bc)
+    benfords = benfords_law(collection, start=start, stop=stop)
+    r_dict["lead"] = benfords["lead"]
+    r_dict["pair"] = benfords["pair"]
     dump = json.dumps(r_dict)
     return dump
 
@@ -93,12 +96,13 @@ def benfords_law(collection, start=None, stop=None):
     #leading digit
     ob_lead = s_amt.apply(lambda x: x[0]).value_counts(normalize=True).to_dict()
     ex_lead = {str(x): np.log10(1.+1./x) for x in range(1,10)}
-    z_lead = {str(i):z_score(ob_lead[str(i)], ex_lead[str(i)], total) for i in range(1,10)}
+    lead = [{"bins":x, "obs":ob_lead[str(x)], "exp":ex_lead[str(x)], "z_score": z_score(ob_lead[str(x)], ex_lead[str(x)], total)} for x in range(1, 10)]
     #leading digit pairs
     ob_pair = s_amt.apply(lambda x: x[:2]).value_counts(normalize=True).to_dict()
     ex_pair = {str(x): np.log10(1.+1./x) for x in range(10,100)}
-    z_pair = {str(i):z_score(ob_pair[str(i)], ex_pair[str(i)], total) for i in range(10,100)}
+    pair = [{"bins":x, "obs":ob_pair[str(x)], "exp":ex_pair[str(x)], "z_score":z_score(ob_pair[str(x)], ex_pair[str(x)], total)} for x in range(10,100)]
     #build return dict
-    r_dict = {"ob_lead":ob_lead, "ex_lead":ex_lead, "z_lead":z_lead, "ob_pair": ob_pair, "ex_pair": ex_pair, "z_pair":z_pair}
-    dump = json.dumps(r_dict)
-    return dump
+    r_dict = {"lead":lead, "pair": pair}
+    return r_dict
+    #dump = json.dumps(r_dict)
+    #return dump

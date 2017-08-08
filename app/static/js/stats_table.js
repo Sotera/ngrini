@@ -34,13 +34,13 @@ function renderStatTable(c_name, min_dt, max_dt) {
     $('.high_hist').empty();
     renderBarChart(o_res.high_hist, ".high_hist");
     $('.benfords_law1').empty();
-    renderExObChart(o_res.high_hist, ".benfords_law1");
+    renderExObChart(o_res.lead, ".benfords_law1");
     $('.benfords_law1_mini').empty();
-    renderMiniChart(o_res.high_hist, ".benfords_law1_mini");
+    renderMiniChart(o_res.lead, ".benfords_law1_mini");
     $('.benfords_law2').empty();
-    renderExObChart(o_res.high_hist, ".benfords_law2");
+    renderExObChart(o_res.pair, ".benfords_law2");
     $('.benfords_law2_mini').empty();
-    renderMiniChart(o_res.high_hist, ".benfords_law2_mini");
+    renderMiniChart(o_res.pair, ".benfords_law2_mini");
 }
 
 function renderBarChart(data, class_n){

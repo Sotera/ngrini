@@ -13,14 +13,14 @@ function renderExObChart(data, class_n){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     x.domain(data.map(function(d) { return d.bins; }));
-    y.domain([0, d3.max(data, function(d) { return d.occ; })]);
+    y.domain([0, d3.max(data, function(d) { return d.exp; })]);
 
     var navExLine = d3.line()
         .x(function(d) {
             return x(d.bins);
         })
         .y(function(d) {
-            return y(d.occ);
+            return y(d.exp);
         });
 
     g.append("g")
@@ -43,22 +43,21 @@ function renderExObChart(data, class_n){
         .attr("text-anchor", "end")
         .text("Frequency");
 
-    g.append('path')
-        .attr('class', 'line')
-        .style("stroke", "#ffae3b")
-        .attr('d', navExLine(data));
-
     g.selectAll(".bar")
       .data(data)
       .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function(d) { return x(d.bins); })
-        .attr("y", function(d) { return y(d.occ); })
+        .attr("y", function(d) { return y(d.obs); })
         .attr("width", x.bandwidth())
         .attr("height",
                 function(d) {
-                    return height - y(d.occ);
+                    return height - y(d.obs);
                 } );
+    g.append('path')
+        .attr('class', 'line')
+        .style("stroke", "#ffae3b")
+        .attr('d', navExLine(data));
 
 }
 
@@ -75,14 +74,14 @@ function renderMiniChart(data, class_n){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     x.domain(data.map(function(d) { return d.bins; }));
-    y.domain([0, d3.max(data, function(d) { return d.occ; })]);
+    y.domain([0, d3.max(data, function(d) { return d.z_score; })]);
 
     var navExLine = d3.line()
         .x(function(d) {
             return x(d.bins);
         })
         .y(function(d) {
-            return y(d.occ);
+            return y(d.z_score);
         });
 
     g.append('path')

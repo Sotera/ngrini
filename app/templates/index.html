@@ -11,7 +11,7 @@
     <title>newFin</title>
   </head>
   <body onload="load_all('placid_express_custdata_originate_alzarooni')">
-    <img src="{{url_for('static', filename='images/logo.png') }}" style="width:200px;height:100px"/>
+    <!--<img src="{{url_for('static', filename='images/logo.png') }}" style="width:200px;height:100px"/>-->
     </br>
     <h2>Placid Express</h2>
     <h3>Date Ranges and Basic Stats</h3>
@@ -27,16 +27,27 @@
       <svg class="low_hist"></svg>
       <svg class="high_hist"></svg>
     </div>
+
     <h3>Benford's Law - Leading Digit</h3>
     <div class="chart_stat_bar">
-      <div class="BL1-chart-container"></div>
-      <div class="stat-box">
-        <table class="stat-table-BL1" style="width:100%">
-        </table>
+      <div class= "ben-chart-container">
+        <svg class="benfords_law1"></svg>
+        <div class="mini_chart">
+          <svg class="benfords_law1_mini"></svg>
+        </div>
       </div>
+      <div class= "ben-chart-container">
+        <svg class="benfords_law2"></svg>
+        <div class="mini_chart">
+          <svg class="benfords_law2_mini"></svg>
+        </div>
+      </div>
+
     </div>
+
   </body>
   <script src="{{url_for('static', filename='js/stats_table.js') }}"></script>
+  <script src="{{url_for('static', filename='js/benfords_law.js') }}"></script>
   <script src="{{url_for('static', filename='js/date_slider.js') }}"></script>
   <script src="{{url_for('static', filename='js/wrap_loaders.js') }}"></script>
 </html>

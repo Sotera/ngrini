@@ -107,12 +107,12 @@ function renderDateSlider(c_name) {
 
     navChart.append('path')
       .attr('class', 'line')
-      .style("stroke", "blue")
+      .style("stroke", "#00aafe")
       .attr('d', navLine(data));
 
     navChart.append('path')
       .attr('class', 'line')
-      .style("stroke", "red")
+      .style("stroke", "#ffae3b")
       .attr('d', navLine2(data));
 
     var viewport = d3.brushX()
@@ -124,7 +124,7 @@ function renderDateSlider(c_name) {
 
     //Add axis
     navChart.append('g')
-      .attr('class', 'x axis')
+      .attr('class', 'axisGrey')
       .attr('transform', 'translate(0,' + navHeight + ')')
       .call(xAxis);
 
@@ -133,9 +133,9 @@ function renderDateSlider(c_name) {
       .call(d3.axisLeft(yScale));
 
     navChart.append('g')
-      .attr('class', 'axisRed')
+      .attr('class', 'axisOrange')
       .call(d3.axisRight(yScale2))
-      .attr("transform", "translate(" + navWidth*.93 + ", 0)")
+      .attr("transform", "translate(" + navWidth*.93 + ", 0)");
 
     //Add axis labels
     navChart.append('g')
@@ -148,7 +148,7 @@ function renderDateSlider(c_name) {
       .text('Number of Transactions');
 
     navChart.append('g')
-      .attr('class', 'axisRed')
+      .attr('class', 'axisOrange')
       .append('text')
       .attr("transform", "translate(" + navWidth*.9 + ", 0), rotate(-90)")
       .attr("dy", ".71em")

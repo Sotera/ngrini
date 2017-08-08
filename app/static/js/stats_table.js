@@ -33,11 +33,19 @@ function renderStatTable(c_name, min_dt, max_dt) {
     renderBarChart(o_res.low_hist, ".low_hist");
     $('.high_hist').empty();
     renderBarChart(o_res.high_hist, ".high_hist");
+    $('.benfords_law1').empty();
+    renderExObChart(o_res.high_hist, ".benfords_law1");
+    $('.benfords_law1_mini').empty();
+    renderMiniChart(o_res.high_hist, ".benfords_law1_mini");
+    $('.benfords_law2').empty();
+    renderExObChart(o_res.high_hist, ".benfords_law2");
+    $('.benfords_law2_mini').empty();
+    renderMiniChart(o_res.high_hist, ".benfords_law2_mini");
 }
 
 function renderBarChart(data, class_n){
     var svg = d3.select(class_n),
-        margin = {top:10, right: 0, bottom:50, left:50}
+        margin = {top:10, right: 0, bottom:50, left:50},
         width = parseInt(svg.style('width')) - margin.left - margin.right,
         height = parseInt(svg.style('height')) - margin.top - margin.bottom;
 
@@ -51,7 +59,7 @@ function renderBarChart(data, class_n){
     y.domain([0, d3.max(data, function(d) { return d.occ; })]);
 
     g.append("g")
-        .attr("class", "axis axis--x")
+        .attr("class", "axisGrey")
         .attr("transform", "translate(0, " + height + ")")
         .call(d3.axisBottom(x))
       .selectAll("text")
@@ -61,7 +69,7 @@ function renderBarChart(data, class_n){
         .style("text-anchor", "end");
 
     g.append("g")
-        .attr("class", "axis axis--y")
+        .attr("class", "axisGrey")
         .call(d3.axisLeft(y))
       .append("text")
         .attr("transform", "rotate(-90)")

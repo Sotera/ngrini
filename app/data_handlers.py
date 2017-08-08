@@ -99,6 +99,9 @@ def benfords_law(collection, start=None, stop=None):
     lead = [{"bins":x, "obs":ob_lead[str(x)], "exp":ex_lead[str(x)], "z_score": z_score(ob_lead[str(x)], ex_lead[str(x)], total)} for x in range(1, 10)]
     #leading digit pairs
     ob_pair = s_amt.apply(lambda x: x[:2]).value_counts(normalize=True).to_dict()
+    for i in range(10,100):
+        if str(i) not in ob_pair:
+            ob_pair[str(i)] = 0
     ex_pair = {str(x): np.log10(1.+1./x) for x in range(10,100)}
     pair = [{"bins":x, "obs":ob_pair[str(x)], "exp":ex_pair[str(x)], "z_score":z_score(ob_pair[str(x)], ex_pair[str(x)], total)} for x in range(10,100)]
     #build return dict

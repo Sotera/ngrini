@@ -6,7 +6,7 @@ function renderExObChart(data, class_n){
         width = parseInt(svg.style('width')) - margin.left - margin.right,
         height = parseInt(svg.style('height')) - margin.top - margin.bottom;
 
-    var x = d3.scaleBand().rangeRound([0, width]),
+    var x = d3.scaleBand().rangeRound([0, width],.1),
         y = d3.scaleLinear().rangeRound([height, 0]);
 
     var g = svg.append("g")
@@ -14,6 +14,13 @@ function renderExObChart(data, class_n){
 
     x.domain(data.map(function(d) { return d.bins; }));
     y.domain([0, d3.max(data, function(d) { return d.exp; })]);
+
+    var tooltip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-20, 20])
+        .html(function(d) {
+            return d.obs;
+        });
 
     var navExLine = d3.line()
         .x(function(d) {
@@ -43,24 +50,28 @@ function renderExObChart(data, class_n){
         .attr("text-anchor", "end")
         .text("Frequency");
 
+    g.call(tooltip);
+
     g.selectAll(".bar")
-      .data(data)
-      .enter().append("rect")
+        .data(data)
+        .enter()
+        .append("rect")
         .attr("class", "bar")
         .attr("x", function(d) { return x(d.bins); })
         .attr("y", function(d) { return y(d.obs); })
-        .attr("width", x.bandwidth())
+        .attr("width", x.bandwidth() * .9)
         .attr("height",
                 function(d) {
                     return height - y(d.obs);
-                } );
+                } )
+        .on('mouseover', tooltip.show)
+        .on('mouseout', tooltip.hide);
 
     g.append('path')
         .attr('class', 'line')
         .style("stroke", "#ffae3b")
         .attr('d', navExLine(data))
         .attr("transform", "translate(" + x.bandwidth()/2 + ",0)");
-
 }
 
 function renderMiniChart(data, class_n){

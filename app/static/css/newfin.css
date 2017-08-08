@@ -18,6 +18,11 @@ h2, h3 {
     color: #e1e1e1;
 }
 
+.d3-tip{
+    font-weight:bold;
+    color:#fff;
+}
+
 .chart_stat_bar {
     width:100%;
     height:500px;

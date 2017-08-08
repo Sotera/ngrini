@@ -58,6 +58,13 @@ function renderBarChart(data, class_n){
     x.domain(data.map(function(d) { return d.bins; }));
     y.domain([0, d3.max(data, function(d) { return d.occ; })]);
 
+    var tooltip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-20, 20])
+        .html(function(d) {
+            return d.occ;
+        });
+
     g.append("g")
         .attr("class", "axisGrey")
         .attr("transform", "translate(0, " + height + ")")
@@ -78,16 +85,19 @@ function renderBarChart(data, class_n){
         .attr("text-anchor", "end")
         .text("Frequency");
 
+    g.call(tooltip);
     g.selectAll(".bar")
       .data(data)
       .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function(d) { return x(d.bins); })
         .attr("y", function(d) { return y(d.occ); })
-        .attr("width", x.bandwidth())
+        .attr("width", x.bandwidth() * .9)
         .attr("height",
                 function(d) {
                     return height - y(d.occ);
-                } );
+                } )
+        .on('mouseover', tooltip.show)
+        .on('mouseout', tooltip.hide);
 }
 

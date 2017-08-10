@@ -3,7 +3,7 @@ function renderDateSlider(c_name) {
     var maxDate = new Date("2014-02-17T06:00:00.000Z");
 
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "api/load_data/"+c_name, false);
+    xhttp.open("GET", "leads/load_data/"+c_name, false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
     var data = JSON.parse(xhttp.responseText);

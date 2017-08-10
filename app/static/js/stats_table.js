@@ -2,7 +2,7 @@ function renderStatTable(c_name, min_dt, max_dt) {
     //Get data from Flask Rest Service
     //////////////////////////////////
     var xhttp = new XMLHttpRequest();
-    str_req = "api/stats_data?col="+c_name
+    str_req = "leads/stats_data?col="+c_name
     if(min_dt != null && max_dt != null){
         str_req = str_req + "&min_dt=" + min_dt + "&max_dt=" + max_dt
     }

@@ -23,11 +23,11 @@ def index():
                            user=user,
                            posts=posts)
 
-@app.route("/api/load_data/<collection>")
+@app.route("/leads/load_data/<collection>")
 def load_data(collection):
     return data_handlers.date_chart_from_mongo(collection)
 
-@app.route("/api/stats_data")
+@app.route("/leads/stats_data")
 def load_stats():
     pars = request.args.to_dict()
     if "min_dt" in pars and "max_dt" in pars:
